@@ -355,6 +355,7 @@
 "Assets/Demo/Low poly package/Scripts/GameHandler.cs"
 "Assets/Demo/Low poly package/Scripts/ScreenshotHandler.cs"
 "Assets/Scripts/GameManager.cs"
+"Assets/Scripts/Resource Production/BerryBush.cs"
 "Assets/Scripts/Resource Production/Well.cs"
 -langversion:9.0
 /deterministic

@@ -35,10 +35,23 @@ public class GameManager : MonoBehaviour
     public TMP_Text waterAmountText;
     public TMP_Text waterProductionRateText;
     public Slider waterCollectCooldownSlider;
+
+    [Header("Berries")]
+    public float playerBerryAmount;
+    private int berryBushAmount;
+    public GameObject berryBushParent;
+
+    public TMP_Text berryAmountText;
+    public TMP_Text berryBushesAmountText;
     
     private void Start()
     {
         waterCollectCooldownSlider.gameObject.SetActive(false);
+
+        // Berry Bushes
+        Transform[] berryBushes = berryBushParent.GetComponentsInChildren<Transform>();
+        berryBushAmount = berryBushes.Length;
+        berryBushesAmountText.text = "Berry Bushes: " + berryBushAmount;
     }
 
     public void CollectWater(Well well)
@@ -87,5 +100,16 @@ public class GameManager : MonoBehaviour
 
         canCollectWater = true;
         waterCollectCooldownSlider.gameObject.SetActive(false);
+    }
+
+    public void CollectBerries(BerryBush berryBush)
+    {
+        playerBerryAmount += berryBush.berryAmount;
+        berryBushAmount--;
+
+        Destroy(berryBush.gameObject);
+
+        berryAmountText.text = "Berries: " + playerBerryAmount;
+        berryBushesAmountText.text = "Berry Bushes: " + berryBushAmount;
     }
 }
