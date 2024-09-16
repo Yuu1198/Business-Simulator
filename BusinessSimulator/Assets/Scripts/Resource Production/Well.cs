@@ -20,7 +20,7 @@ public class Well : MonoBehaviour
         wellRenderer = GetComponent<Renderer>();
         activeMaterial = wellRenderer.material;
 
-        UpdateProductionRateDisplay();
+        UpdateWaterProductionRateUI();
     }
 
     private void Update()
@@ -34,10 +34,14 @@ public class Well : MonoBehaviour
             if (waterAmount + waterRegenRate <= maxWaterCapacity)
             {
                 waterAmount += waterRegenRate;
+
+                UpdateWaterProductionRateUI();
             }
             else
             {
                 waterAmount = maxWaterCapacity; // Maximum capacity
+
+                UpdateWaterProductionRateUI(true);
             }
 
             // Reset timer for next regenInterval
@@ -61,8 +65,16 @@ public class Well : MonoBehaviour
         GameManager.Instance.CollectWater(this);
     }
 
-    private void UpdateProductionRateDisplay()
+    private void UpdateWaterProductionRateUI(bool wellFull = false)
     {
-        GameManager.Instance.waterProductionRateText.text = "Water: " + waterRegenRate / regenInterval + " units / s";
+        if (wellFull)
+        {
+            GameManager.Instance.waterProductionRateText.text = "Water PR: 0 units/s";
+        }
+        else
+        {
+            float waterProductionRatePerSecond = waterRegenRate / regenInterval;
+            GameManager.Instance.waterProductionRateText.text = "Water PR: " + waterProductionRatePerSecond.ToString("F2") + " units/s";
+        }
     }
 }
