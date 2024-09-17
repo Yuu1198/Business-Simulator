@@ -3,37 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class FlourFactory : MonoBehaviour
+public class FlourFactory : ResourceFactory
 {
     private int neededWheat = 10;
 
-    private float flourProductionTime = 20f;
-    private float productionTimer = 0f;
-
-    private bool inProduction = false;
-    private bool finishedProduction = false;
-
-    public Slider productionProgressBar;
-
-    private void Start()
-    {
-        productionProgressBar.gameObject.SetActive(false);
-    }
-
-    // Player Input
-    private void OnMouseDown()
-    {
-        if (!inProduction && !finishedProduction)
-        {
-            StartProduction(); // Produce
-        }
-        else if (finishedProduction)
-        {
-            CollectFlour(); // Collect
-        }
-    }
-
-    private void StartProduction()
+    protected override void StartProduction()
     {
         if (GameManager.Instance.GetWheat(neededWheat))
         {
@@ -42,9 +16,9 @@ public class FlourFactory : MonoBehaviour
             productionProgressBar.gameObject.SetActive(true);
             productionProgressBar.value = 0f;
 
-            GameManager.Instance.OnProductionUpdated(true, flourProductionTime);
+            GameManager.Instance.OnFlourProductionUpdated(true, productionTime);
 
-            StartCoroutine(ProduceFlour());
+            StartCoroutine(Produce());
         }
         else
         {
@@ -52,14 +26,14 @@ public class FlourFactory : MonoBehaviour
         }
     }
 
-    private IEnumerator ProduceFlour()
+    protected override IEnumerator Produce()
     {
         productionTimer = 0f;
-        while (productionTimer < flourProductionTime)
+        while (productionTimer < productionTime)
         {
             // Update timer and progress bar
             productionTimer += Time.deltaTime;
-            productionProgressBar.value = productionTimer / flourProductionTime;
+            productionProgressBar.value = productionTimer / productionTime;
 
             yield return null;
         }
@@ -68,15 +42,12 @@ public class FlourFactory : MonoBehaviour
         finishedProduction = true;
         inProduction = false;
 
-        GameManager.Instance.OnProductionUpdated(false, flourProductionTime);
+        GameManager.Instance.OnFlourProductionUpdated(false, productionTime);
     }
 
-    private void CollectFlour()
+    protected override void Collect()
     {
-        // Reset
-        finishedProduction = false;
-        productionProgressBar.gameObject.SetActive(false);
-        productionProgressBar.value = 0f;
+        base.Collect();
 
         GameManager.Instance.CollectFlour();
     }

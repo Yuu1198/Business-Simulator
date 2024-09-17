@@ -57,6 +57,12 @@ public class GameManager : MonoBehaviour
 
     public TMP_Text flourProductionRateText;
 
+    [Header("Dough")]
+    public TMP_Text doughAmountText;
+    private int playerDoughAmount;
+
+    public TMP_Text doughProductionRateText;
+
     private void Start()
     {
         waterCollectCooldownSlider.gameObject.SetActive(false);
@@ -157,17 +163,36 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
-    #region Flour
+    #region Flour and Dough
+
     public bool GetWheat(int neededWheatAmount)
     {
         if (playerWheatAmount >= neededWheatAmount) // Enough wheat
         {
             playerWheatAmount -= neededWheatAmount; // Use wheat
+            wheatAmountText.text = "Wheat: " + playerWheatAmount;
             return true;
         }
         else
         {
             return false; // Not enough wheat
+        }
+    }
+
+    public bool GetFlourAndWater(int neededFlourAmount, int neededWaterAmount)
+    {
+        if (playerFlourAmount >= neededFlourAmount && playerWaterAmount >= neededWaterAmount) // Enough resources
+        {
+            // Use resources
+            playerFlourAmount -= neededFlourAmount;
+            playerWaterAmount -= neededWaterAmount;
+            flourAmountText.text = "Flour: " + playerFlourAmount;
+            waterAmountText.text = "Water: " + playerWaterAmount;
+            return true;
+        }
+        else
+        {
+            return false; // Not enough resources
         }
     }
 
@@ -178,7 +203,14 @@ public class GameManager : MonoBehaviour
         flourAmountText.text = "Flour: " + playerFlourAmount;
     }
 
-    public void OnProductionUpdated(bool active, float flourProductionTime)
+    public void CollectDough()
+    {
+        playerDoughAmount++;
+
+        doughAmountText.text = "Dough: " + playerDoughAmount;
+    }
+
+    public void OnFlourProductionUpdated(bool active, float flourProductionTime)
     {
         if (active)
         {
@@ -188,6 +220,19 @@ public class GameManager : MonoBehaviour
         else
         {
             flourProductionRateText.text = "Flour PR: 0 /s";
+        }
+    }
+
+    public void OnDoughProductionUpdated(bool active, float doughProductionTime)
+    {
+        if (active)
+        {
+            float productionTime = 1 / doughProductionTime;
+            doughProductionRateText.text = "Dough PR: " + productionTime.ToString("F2") + " /s";
+        }
+        else
+        {
+            doughProductionRateText.text = "Dough PR: 0 /s";
         }
     }
     #endregion
