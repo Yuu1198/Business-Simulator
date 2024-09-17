@@ -43,7 +43,18 @@ public class GameManager : MonoBehaviour
 
     public TMP_Text berryAmountText;
     public TMP_Text berryBushesAmountText;
-    
+
+    [Header("Wheat")]
+    public TMP_Text wheatAmountText;
+
+    private int playerWheatAmount;
+
+    private int activeFields;
+    private float wheatGrowTime = 30f;
+    private int wheatPerField = 6;
+    public TMP_Text wheatProductionRateText;
+
+
     private void Start()
     {
         waterCollectCooldownSlider.gameObject.SetActive(false);
@@ -54,6 +65,7 @@ public class GameManager : MonoBehaviour
         berryBushesAmountText.text = "Berry Bushes: " + berryBushAmount;
     }
 
+    #region Water
     public void CollectWater(Well well)
     {
         if (canCollectWater)
@@ -101,7 +113,9 @@ public class GameManager : MonoBehaviour
         canCollectWater = true;
         waterCollectCooldownSlider.gameObject.SetActive(false);
     }
+    #endregion
 
+    #region Berries
     public void CollectBerries(BerryBush berryBush)
     {
         playerBerryAmount += berryBush.berryAmount;
@@ -112,4 +126,32 @@ public class GameManager : MonoBehaviour
         berryAmountText.text = "Berries: " + playerBerryAmount;
         berryBushesAmountText.text = "Berry Bushes: " + berryBushAmount;
     }
+    #endregion
+
+    #region Wheat
+    public void CollectWheat(int amount)
+    {
+        playerWheatAmount += amount;
+
+        wheatAmountText.text = "Wheat: " + playerWheatAmount;
+    }
+
+    public void UpdateWheatProductionRate()
+    {
+        float productionRate = (activeFields * wheatPerField) / wheatGrowTime;
+        wheatProductionRateText.text = "Wheat PR: " + productionRate.ToString("F2") + " /s";
+    }
+
+    public void OnFieldPlanted()
+    {
+        activeFields++;
+        UpdateWheatProductionRate();
+    }
+
+    public void OnFieldGrown()
+    {
+        activeFields--;
+        UpdateWheatProductionRate();
+    }
+    #endregion
 }
