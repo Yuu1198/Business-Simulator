@@ -6,6 +6,7 @@ public class BerryBush : MonoBehaviour
 {
     public int berryAmount = 10;
 
+    // Player Input
     private void OnMouseDown()
     {
         CollectBerries();

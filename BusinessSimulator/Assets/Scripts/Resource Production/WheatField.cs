@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class WheatField : MonoBehaviour
 {
-    private int wheatAmount = 6;
+    public int wheatAmount = 6;
 
     private bool isPlanted = false;
     private bool isHarvestable = false;
@@ -20,6 +20,7 @@ public class WheatField : MonoBehaviour
         growProgressSlider.gameObject.SetActive(false);
     }
 
+    // Player Input
     private void OnMouseDown()
     {
         if (!isPlanted)
@@ -39,11 +40,12 @@ public class WheatField : MonoBehaviour
         growProgressSlider.gameObject.SetActive(true);
         growProgressSlider.value = 0f;
 
-        GameManager.Instance.OnFieldPlanted();
+        GameManager.Instance.OnFieldPlanted(wheatAmount, growthTime);
 
         StartCoroutine(GrowWheat());
     }
 
+    // Production
     private IEnumerator GrowWheat()
     {
         growTimer = 0f;
@@ -52,7 +54,7 @@ public class WheatField : MonoBehaviour
         while (growTimer < growthTime)
         {
             growTimer += Time.deltaTime;
-            growProgressSlider.value = growTimer / growthTime;
+            growProgressSlider.value = growTimer / growthTime; // Update Progress Bar
 
             yield return null;
         }
@@ -60,7 +62,7 @@ public class WheatField : MonoBehaviour
         // Finished growing
         isHarvestable = true;
         this.transform.GetChild(0).gameObject.SetActive(true);
-        GameManager.Instance.OnFieldGrown();
+        GameManager.Instance.OnFieldGrown(wheatAmount, growthTime);
 
         growProgressSlider.gameObject.SetActive(false);
     }

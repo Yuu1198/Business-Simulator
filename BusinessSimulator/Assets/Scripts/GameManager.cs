@@ -37,23 +37,25 @@ public class GameManager : MonoBehaviour
     public Slider waterCollectCooldownSlider;
 
     [Header("Berries")]
+    public GameObject berryBushParent;
     public float playerBerryAmount;
     private int berryBushAmount;
-    public GameObject berryBushParent;
 
     public TMP_Text berryAmountText;
     public TMP_Text berryBushesAmountText;
 
     [Header("Wheat")]
     public TMP_Text wheatAmountText;
-
     private int playerWheatAmount;
 
     private int activeFields;
-    private float wheatGrowTime = 30f;
-    private int wheatPerField = 6;
     public TMP_Text wheatProductionRateText;
 
+    [Header("Flour")]
+    public TMP_Text flourAmountText;
+    private int playerFlourAmount;
+
+    public TMP_Text flourProductionRateText;
 
     private void Start()
     {
@@ -136,22 +138,57 @@ public class GameManager : MonoBehaviour
         wheatAmountText.text = "Wheat: " + playerWheatAmount;
     }
 
-    public void UpdateWheatProductionRate()
+    public void UpdateWheatProductionRate(int wheatPerField, float wheatGrowTime)
     {
         float productionRate = (activeFields * wheatPerField) / wheatGrowTime;
         wheatProductionRateText.text = "Wheat PR: " + productionRate.ToString("F2") + " /s";
     }
 
-    public void OnFieldPlanted()
+    public void OnFieldPlanted(int wheatPerField, float wheatGrowTime)
     {
         activeFields++;
-        UpdateWheatProductionRate();
+        UpdateWheatProductionRate(wheatPerField, wheatGrowTime);
     }
 
-    public void OnFieldGrown()
+    public void OnFieldGrown(int wheatPerField, float wheatGrowTime)
     {
         activeFields--;
-        UpdateWheatProductionRate();
+        UpdateWheatProductionRate(wheatPerField, wheatGrowTime);
+    }
+    #endregion
+
+    #region Flour
+    public bool GetWheat(int neededWheatAmount)
+    {
+        if (playerWheatAmount >= neededWheatAmount) // Enough wheat
+        {
+            playerWheatAmount -= neededWheatAmount; // Use wheat
+            return true;
+        }
+        else
+        {
+            return false; // Not enough wheat
+        }
+    }
+
+    public void CollectFlour()
+    {
+        playerFlourAmount++;
+
+        flourAmountText.text = "Flour: " + playerFlourAmount;
+    }
+
+    public void OnProductionUpdated(bool active, float flourProductionTime)
+    {
+        if (active)
+        {
+            float productionTime = 1 / flourProductionTime;
+            flourProductionRateText.text = "Flour PR: " + productionTime.ToString("F2") + " /s";
+        }
+        else
+        {
+            flourProductionRateText.text = "Flour PR: 0 /s";
+        }
     }
     #endregion
 }

@@ -356,6 +356,7 @@
 "Assets/Demo/Low poly package/Scripts/ScreenshotHandler.cs"
 "Assets/Scripts/GameManager.cs"
 "Assets/Scripts/Resource Production/BerryBush.cs"
+"Assets/Scripts/Resource Production/FlourFactory.cs"
 "Assets/Scripts/Resource Production/Well.cs"
 "Assets/Scripts/Resource Production/WheatField.cs"
 -langversion:9.0

@@ -23,6 +23,7 @@ public class Well : MonoBehaviour
         UpdateWaterProductionRateUI();
     }
 
+    // Production
     private void Update()
     {
         // Increment the timer
@@ -59,12 +60,14 @@ public class Well : MonoBehaviour
         }
     }
 
+    // Player Input
     private void OnMouseDown()
     {
         // Call the function to collect water when the player clicks on the well
         GameManager.Instance.CollectWater(this);
     }
 
+    // UI
     private void UpdateWaterProductionRateUI(bool wellFull = false)
     {
         if (wellFull)
