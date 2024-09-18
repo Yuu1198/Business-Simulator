@@ -12,6 +12,9 @@ public class DoughFactory : ResourceFactory
     {
         if (GameManager.Instance.GetFlourAndWater(neededFlour, neededWater))
         {
+            // Audio
+            audioSource.PlayOneShot(startProductionClip);
+
             inProduction = true;
 
             productionProgressBar.gameObject.SetActive(true);

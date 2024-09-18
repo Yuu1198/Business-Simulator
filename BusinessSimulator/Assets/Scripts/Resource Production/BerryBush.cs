@@ -6,6 +6,9 @@ public class BerryBush : MonoBehaviour
 {
     public int berryAmount = 10;
 
+    public AudioSource audioSource;
+    public AudioClip collectClip;
+
     // Player Input
     private void OnMouseDown()
     {
@@ -13,7 +16,7 @@ public class BerryBush : MonoBehaviour
     }
 
     private void CollectBerries()
-    { 
+    {
         GameManager.Instance.CollectBerries(this);
     }
 }

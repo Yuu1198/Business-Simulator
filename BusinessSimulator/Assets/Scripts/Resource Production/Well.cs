@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Well : MonoBehaviour
 {
@@ -14,6 +15,9 @@ public class Well : MonoBehaviour
     public Material activeMaterial;
     public Material cooldownMaterial;
     private Renderer wellRenderer;
+
+    public AudioSource audioSource;
+    public AudioClip collectClip;
 
     private void Start()
     {

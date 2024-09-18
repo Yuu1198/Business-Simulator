@@ -86,6 +86,8 @@ public class GameManager : MonoBehaviour
         {
             if (well.waterAmount >= waterCollectionRate) // Check if the well has enough water to collect
             {
+                well.audioSource.PlayOneShot(well.collectClip);
+
                 if (playerWaterAmount + waterCollectionRate <= playerMxWaterCapacity) // Check if max capacity is overshot
                 {
                     // Transfer water from the well to the player
@@ -132,10 +134,13 @@ public class GameManager : MonoBehaviour
     #region Berries
     public void CollectBerries(BerryBush berryBush)
     {
+        berryBush.audioSource.PlayOneShot(berryBush.collectClip);
+        berryBush.GetComponent<MeshRenderer>().enabled = false;
+
         playerBerryAmount += berryBush.berryAmount;
         berryBushAmount--;
 
-        Destroy(berryBush.gameObject);
+        Destroy(berryBush.gameObject, berryBush.collectClip.length);
 
         berryAmountText.text = "Berries: " + playerBerryAmount;
         berryBushesAmountText.text = "Berry Bushes: " + berryBushAmount;

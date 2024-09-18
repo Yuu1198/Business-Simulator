@@ -11,6 +11,9 @@ public class PieFactory : ResourceFactory
     {
         if (GameManager.Instance.GetDoughAndBerries(neededDough, neededBerries))
         {
+            // Audio
+            audioSource.PlayOneShot(startProductionClip);
+
             inProduction = true;
 
             productionProgressBar.gameObject.SetActive(true);

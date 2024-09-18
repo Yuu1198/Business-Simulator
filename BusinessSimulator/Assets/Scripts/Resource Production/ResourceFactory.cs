@@ -14,6 +14,11 @@ public class ResourceFactory : MonoBehaviour
 
     public Slider productionProgressBar;
 
+    [Header("Audio")]
+    public AudioSource audioSource;
+    public AudioClip startProductionClip;
+    public AudioClip collectClip;
+
     private void Start()
     {
         productionProgressBar.gameObject.SetActive(false);
@@ -63,6 +68,9 @@ public class ResourceFactory : MonoBehaviour
         finishedProduction = false;
         productionProgressBar.gameObject.SetActive(false);
         productionProgressBar.value = 0f;
+
+        // Audio
+        audioSource.PlayOneShot(collectClip);
 
         // INSERT CORRECT COLLECT FUNCTION (GM)
     }

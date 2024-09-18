@@ -11,6 +11,9 @@ public class FlourFactory : ResourceFactory
     {
         if (GameManager.Instance.GetWheat(neededWheat))
         {
+            // Audio
+            audioSource.PlayOneShot(startProductionClip);
+
             inProduction = true;
 
             productionProgressBar.gameObject.SetActive(true);

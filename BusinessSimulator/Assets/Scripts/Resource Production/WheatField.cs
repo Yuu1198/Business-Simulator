@@ -15,6 +15,11 @@ public class WheatField : MonoBehaviour
 
     public Slider growProgressSlider;
 
+    [Header("Audio")]
+    public AudioSource audioSource;
+    public AudioClip startProductionClip;
+    public AudioClip collectClip;
+
     private void Start()
     {
         growProgressSlider.gameObject.SetActive(false);
@@ -35,6 +40,9 @@ public class WheatField : MonoBehaviour
 
     private void PlantWheat()
     {
+        // Audio
+        audioSource.PlayOneShot(startProductionClip);
+
         isPlanted = true;
 
         growProgressSlider.gameObject.SetActive(true);
@@ -72,6 +80,9 @@ public class WheatField : MonoBehaviour
         // Reset
         isPlanted = false;
         isHarvestable = false;
+
+        // Audio
+        audioSource.PlayOneShot(collectClip);
 
         GameManager.Instance.CollectWheat(wheatAmount);
 
