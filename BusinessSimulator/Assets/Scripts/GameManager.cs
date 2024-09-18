@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour
     [Header("Water")]
     public float playerWaterAmount;
 
-    private float playerMxWaterCapacity = 100;
+    public float playerMxWaterCapacity = 100;
     private float waterCollectionRate = 10;
 
     public bool canCollectWater = true;
@@ -62,6 +62,12 @@ public class GameManager : MonoBehaviour
     private int playerDoughAmount;
 
     public TMP_Text doughProductionRateText;
+
+    [Header("Pie")]
+    public TMP_Text pieAmountText;
+    private int playerPieAmount;
+
+    public TMP_Text pieProductionRateText;
 
     private void Start()
     {
@@ -163,7 +169,7 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
-    #region Flour and Dough
+    #region Flour
 
     public bool GetWheat(int neededWheatAmount)
     {
@@ -179,6 +185,28 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void CollectFlour()
+    {
+        playerFlourAmount++;
+
+        flourAmountText.text = "Flour: " + playerFlourAmount;
+    }
+
+    public void OnFlourProductionUpdated(bool active, float flourProductionTime)
+    {
+        if (active)
+        {
+            float productionTime = 1 / flourProductionTime;
+            flourProductionRateText.text = "Flour PR: " + productionTime.ToString("F2") + " /s";
+        }
+        else
+        {
+            flourProductionRateText.text = "Flour PR: 0 /s";
+        }
+    }
+    #endregion
+
+    #region Dough
     public bool GetFlourAndWater(int neededFlourAmount, int neededWaterAmount)
     {
         if (playerFlourAmount >= neededFlourAmount && playerWaterAmount >= neededWaterAmount) // Enough resources
@@ -196,31 +224,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void CollectFlour()
-    {
-        playerFlourAmount++;
-
-        flourAmountText.text = "Flour: " + playerFlourAmount;
-    }
-
     public void CollectDough()
     {
         playerDoughAmount++;
 
         doughAmountText.text = "Dough: " + playerDoughAmount;
-    }
-
-    public void OnFlourProductionUpdated(bool active, float flourProductionTime)
-    {
-        if (active)
-        {
-            float productionTime = 1 / flourProductionTime;
-            flourProductionRateText.text = "Flour PR: " + productionTime.ToString("F2") + " /s";
-        }
-        else
-        {
-            flourProductionRateText.text = "Flour PR: 0 /s";
-        }
     }
 
     public void OnDoughProductionUpdated(bool active, float doughProductionTime)
@@ -234,6 +242,45 @@ public class GameManager : MonoBehaviour
         {
             doughProductionRateText.text = "Dough PR: 0 /s";
         }
+    }
+    #endregion
+
+    #region Pie
+    public bool GetDoughAndBerries(int neededDoughAmount, int neededBerriesAmount)
+    {
+        if (playerDoughAmount >= neededDoughAmount && playerBerryAmount >= neededBerriesAmount) // Enough resources
+        {
+            // Use resources
+            playerDoughAmount -= neededDoughAmount;
+            playerBerryAmount -= neededBerriesAmount;
+            doughAmountText.text = "Dough: " + playerDoughAmount;
+            berryAmountText.text = "Berries: " + playerBerryAmount;
+            return true;
+        }
+        else
+        {
+            return false; // Not enough resources
+        }
+    }
+
+    public void OnPieProductionUpdated(bool active, float pieProductionTime)
+    {
+        if (active)
+        {
+            float productionTime = 1 / pieProductionTime;
+            pieProductionRateText.text = "Pie PR: " + productionTime.ToString("F2") + " /s";
+        }
+        else
+        {
+            pieProductionRateText.text = "Pie PR: 0 /s";
+        }
+    }
+
+    public void CollectPie()
+    {
+        playerPieAmount++;
+
+        pieAmountText.text = "Pie: " + playerPieAmount;
     }
     #endregion
 }
