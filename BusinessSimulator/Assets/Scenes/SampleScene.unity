@@ -3089,11 +3089,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07fb2f56f15e5894c9dea29c8a42d47f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  productionTime: 10
+  productionTime: 20
   productionProgressBar: {fileID: 1060890259}
-  audioSource: {fileID: 743850883}
-  startProductionClip: {fileID: 8300000, guid: 4169e8591eb4b3848a3e192fa953a079, type: 3}
-  collectClip: {fileID: 8300000, guid: 948517fb342da0e4282e549525591281, type: 3}
+  activeMaterial: {fileID: 0}
+  inactiveMaterial: {fileID: 0}
 --- !u!65 &743850880
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5111,9 +5110,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   productionTime: 20
   productionProgressBar: {fileID: 870237323}
-  audioSource: {fileID: 1177111424}
-  startProductionClip: {fileID: 8300000, guid: 4169e8591eb4b3848a3e192fa953a079, type: 3}
-  collectClip: {fileID: 8300000, guid: 948517fb342da0e4282e549525591281, type: 3}
+  activeMaterial: {fileID: 0}
+  inactiveMaterial: {fileID: 2100000, guid: 568cb5083fa7aa24281e62635c899a39, type: 2}
 --- !u!65 &1177111421
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6077,11 +6075,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92dadb1efb500c949bb963cc1e2ba449, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  productionTime: 50
+  productionTime: 30
   productionProgressBar: {fileID: 1666187617}
-  audioSource: {fileID: 1282154183}
-  startProductionClip: {fileID: 8300000, guid: 4169e8591eb4b3848a3e192fa953a079, type: 3}
-  collectClip: {fileID: 8300000, guid: 948517fb342da0e4282e549525591281, type: 3}
+  activeMaterial: {fileID: 0}
+  inactiveMaterial: {fileID: 0}
 --- !u!65 &1282154180
 BoxCollider:
   m_ObjectHideFlags: 0

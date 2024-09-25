@@ -14,26 +14,53 @@ public class ResourceFactory : MonoBehaviour
 
     public Slider productionProgressBar;
 
-    [Header("Audio")]
-    public AudioSource audioSource;
-    public AudioClip startProductionClip;
-    public AudioClip collectClip;
+    protected bool shouldProduce = true;
+    public Material activeMaterial;
+    public Material inactiveMaterial;
+    private Renderer factoryRenderer;
 
     private void Start()
     {
+        factoryRenderer = GetComponent<Renderer>();
+        activeMaterial = factoryRenderer.material;
+
         productionProgressBar.gameObject.SetActive(false);
     }
 
-    // Player Input
+    private void Update()
+    {
+        if (shouldProduce)
+        {
+            if (!inProduction && !finishedProduction)
+            {
+                StartProduction(); // Produce
+            }
+            else if (finishedProduction)
+            {
+                Collect(); // Collect
+            }
+        }
+    }
+
     private void OnMouseDown()
     {
-        if (!inProduction && !finishedProduction)
+        if (shouldProduce)
         {
-            StartProduction(); // Produce
+            shouldProduce = false;
+
+            factoryRenderer.material = inactiveMaterial;
+            productionProgressBar.gameObject.SetActive(false);
         }
-        else if (finishedProduction)
+        else
         {
-            Collect(); // Collect
+            shouldProduce = true;
+
+            factoryRenderer.material = activeMaterial;
+
+            if (inProduction)
+            {
+                productionProgressBar.gameObject.SetActive(true);
+            }
         }
     }
 
@@ -48,6 +75,11 @@ public class ResourceFactory : MonoBehaviour
         productionTimer = 0f;
         while (productionTimer < productionTime)
         {
+            if (!shouldProduce)
+            {
+                yield return null;
+            }
+
             // Update timer and progress bar
             productionTimer += Time.deltaTime;
             productionProgressBar.value = productionTimer / productionTime;
@@ -69,11 +101,6 @@ public class ResourceFactory : MonoBehaviour
         productionProgressBar.gameObject.SetActive(false);
         productionProgressBar.value = 0f;
 
-        // Audio
-        audioSource.PlayOneShot(collectClip);
-
         // INSERT CORRECT COLLECT FUNCTION (GM)
     }
-
-
 }

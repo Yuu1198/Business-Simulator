@@ -11,9 +11,6 @@ public class FlourFactory : ResourceFactory
     {
         if (GameManager.Instance.GetWheat(neededWheat))
         {
-            // Audio
-            audioSource.PlayOneShot(startProductionClip);
-
             inProduction = true;
 
             productionProgressBar.gameObject.SetActive(true);
@@ -34,11 +31,18 @@ public class FlourFactory : ResourceFactory
         productionTimer = 0f;
         while (productionTimer < productionTime)
         {
-            // Update timer and progress bar
-            productionTimer += Time.deltaTime;
-            productionProgressBar.value = productionTimer / productionTime;
+            if (!shouldProduce)
+            {
+                yield return null;
+            }
+            else
+            {
+                // Update timer and progress bar
+                productionTimer += Time.deltaTime;
+                productionProgressBar.value = productionTimer / productionTime;
 
-            yield return null;
+                yield return null;
+            }  
         }
 
         // Finished
