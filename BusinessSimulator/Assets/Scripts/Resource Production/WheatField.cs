@@ -5,45 +5,44 @@ using UnityEngine.UI;
 
 public class WheatField : MonoBehaviour
 {
-    public int wheatAmount = 6;
+    private int wheatAmount = 6;
 
     private bool isPlanted = false;
     private bool isHarvestable = false;
 
-    public float growthTime = 30f;
+    private float growthTime = 10f;
     private float growTimer = 0f;
 
     public Slider growProgressSlider;
-
-    [Header("Audio")]
-    public AudioSource audioSource;
-    public AudioClip startProductionClip;
-    public AudioClip collectClip;
 
     private void Start()
     {
         growProgressSlider.gameObject.SetActive(false);
     }
 
+    private void Update()
+    {
+        // Harvesting
+        if (isHarvestable)
+        {
+            HarvestWheat();
+        }
+    }
+
     // Player Input
     private void OnMouseDown()
     {
+        // Planting
         if (!isPlanted)
         {
-            PlantWheat(); // Planting
-        }
-        else if (isHarvestable)
-        {
-            HarvestWheat(); // Harvesting
+            PlantWheat();
         }
     }
 
     private void PlantWheat()
     {
-        // Audio
-        audioSource.PlayOneShot(startProductionClip);
-
         isPlanted = true;
+        this.transform.GetChild(0).gameObject.SetActive(true);
 
         growProgressSlider.gameObject.SetActive(true);
         growProgressSlider.value = 0f;
@@ -69,7 +68,7 @@ public class WheatField : MonoBehaviour
 
         // Finished growing
         isHarvestable = true;
-        this.transform.GetChild(0).gameObject.SetActive(true);
+        
         GameManager.Instance.OnFieldGrown(wheatAmount, growthTime);
 
         growProgressSlider.gameObject.SetActive(false);
@@ -80,9 +79,6 @@ public class WheatField : MonoBehaviour
         // Reset
         isPlanted = false;
         isHarvestable = false;
-
-        // Audio
-        audioSource.PlayOneShot(collectClip);
 
         GameManager.Instance.CollectWheat(wheatAmount);
 

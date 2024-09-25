@@ -9,6 +9,7 @@ public class BerryBush : MonoBehaviour
     public AudioSource audioSource;
     public AudioClip collectClip;
 
+
     // Player Input
     private void OnMouseDown()
     {
