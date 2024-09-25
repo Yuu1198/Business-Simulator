@@ -24,17 +24,11 @@ public class GameManager : MonoBehaviour
     }
 
     [Header("Water")]
-    public float playerWaterAmount;
-
-    public float playerMxWaterCapacity = 100;
-    private float waterCollectionRate = 10;
-
-    public bool canCollectWater = true;
-    private float waterCollectCooldown = 10f;
+    public int playerWaterAmount;
+    private int playerMaxWaterCapacity = 100;
 
     public TMP_Text waterAmountText;
     public TMP_Text waterProductionRateText;
-    public Slider waterCollectCooldownSlider;
 
     [Header("Berries")]
     public GameObject berryBushParent;
@@ -71,8 +65,6 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        waterCollectCooldownSlider.gameObject.SetActive(false);
-
         // Berry Bushes
         Transform[] berryBushes = berryBushParent.GetComponentsInChildren<Transform>();
         berryBushAmount = berryBushes.Length;
@@ -82,52 +74,14 @@ public class GameManager : MonoBehaviour
     #region Water
     public void CollectWater(Well well)
     {
-        if (canCollectWater)
+        if (playerWaterAmount < playerMaxWaterCapacity)
         {
-            if (well.waterAmount >= waterCollectionRate) // Check if the well has enough water to collect
-            {
-                well.audioSource.PlayOneShot(well.collectClip);
+            // Transfer water from the well to the player
+            playerWaterAmount++;
+            well.waterAmount--;
 
-                if (playerWaterAmount + waterCollectionRate <= playerMxWaterCapacity) // Check if max capacity is overshot
-                {
-                    // Transfer water from the well to the player
-                    playerWaterAmount += waterCollectionRate;
-                    well.waterAmount -= waterCollectionRate;
-
-                    waterAmountText.text = "Water: " + playerWaterAmount;
-                }
-                else
-                {
-                    waterAmountText.text = "Water: " + playerWaterAmount + "(full)";
-                }
-
-                // Start cooldown
-                StartCoroutine(WaterCooldown());
-            }
+            waterAmountText.text = "Water: " + playerWaterAmount;
         }
-    }
-
-    private IEnumerator WaterCooldown()
-    {
-        canCollectWater = false;  // Disable water collection
-        // Slider
-        waterCollectCooldownSlider.gameObject.SetActive(true);
-        waterCollectCooldownSlider.value = 0;
-
-        // Cooldown
-        float elapsed = 0f;
-        while (elapsed < waterCollectCooldown)
-        {
-            elapsed += Time.deltaTime;
-
-            // Update slider
-            waterCollectCooldownSlider.value = elapsed / waterCollectCooldown;
-
-            yield return null;
-        }
-
-        canCollectWater = true;
-        waterCollectCooldownSlider.gameObject.SetActive(false);
     }
     #endregion
 
