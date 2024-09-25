@@ -31,12 +31,8 @@ public class GameManager : MonoBehaviour
     public TMP_Text waterProductionRateText;
 
     [Header("Berries")]
-    public GameObject berryBushParent;
     public float playerBerryAmount;
-    private int berryBushAmount;
-
     public TMP_Text berryAmountText;
-    public TMP_Text berryBushesAmountText;
 
     [Header("Wheat")]
     public TMP_Text wheatAmountText;
@@ -63,14 +59,6 @@ public class GameManager : MonoBehaviour
 
     public TMP_Text pieProductionRateText;
 
-    private void Start()
-    {
-        // Berry Bushes
-        Transform[] berryBushes = berryBushParent.GetComponentsInChildren<Transform>();
-        berryBushAmount = berryBushes.Length;
-        berryBushesAmountText.text = "Berry Bushes: " + berryBushAmount;
-    }
-
     #region Water
     public void CollectWater(Well well)
     {
@@ -88,16 +76,11 @@ public class GameManager : MonoBehaviour
     #region Berries
     public void CollectBerries(BerryBush berryBush)
     {
-        berryBush.audioSource.PlayOneShot(berryBush.collectClip);
-        berryBush.GetComponent<MeshRenderer>().enabled = false;
-
         playerBerryAmount += berryBush.berryAmount;
-        berryBushAmount--;
 
-        Destroy(berryBush.gameObject, berryBush.collectClip.length);
+        Destroy(berryBush.gameObject);
 
         berryAmountText.text = "Berries: " + playerBerryAmount;
-        berryBushesAmountText.text = "Berry Bushes: " + berryBushAmount;
     }
     #endregion
 

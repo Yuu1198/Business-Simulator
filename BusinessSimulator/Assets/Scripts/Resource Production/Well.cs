@@ -7,6 +7,7 @@ public class Well : MonoBehaviour
 {
     private float regenInterval = 5f;
     private float regenTimer = 0f;
+    public Slider regenSlider;
 
     public int waterAmount;
     private int maxWaterCapacity = 100;
@@ -32,6 +33,7 @@ public class Well : MonoBehaviour
         {
             // Increment the timer
             regenTimer += Time.deltaTime;
+            regenSlider.value = regenTimer / regenInterval;
 
             if (regenTimer >= regenInterval) // Check if regenInterval seconds have passed
             {
@@ -66,19 +68,23 @@ public class Well : MonoBehaviour
             // Turn production off
             inProduction = false;
             wellRenderer.material = inactiveMaterial;
+            regenSlider.gameObject.SetActive(false);
         }
         else
         {
             // Turn production on
             inProduction = true;
             wellRenderer.material = activeMaterial;
+            regenSlider.gameObject.SetActive(true);
         }
+
+        UpdateWaterProductionRateUI();
     }
 
     // UI
     private void UpdateWaterProductionRateUI(bool wellFull = false)
     {
-        if (wellFull)
+        if (wellFull || !inProduction)
         {
             GameManager.Instance.waterProductionRateText.text = "Water PR: 0 units/s";
         }

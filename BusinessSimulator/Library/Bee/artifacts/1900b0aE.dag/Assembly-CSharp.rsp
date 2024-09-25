@@ -358,6 +358,7 @@
 "Assets/Scripts/Cat.cs"
 "Assets/Scripts/GameManager.cs"
 "Assets/Scripts/Resource Production/BerryBush.cs"
+"Assets/Scripts/Resource Production/BerryBushParent.cs"
 "Assets/Scripts/Resource Production/DoughFactory.cs"
 "Assets/Scripts/Resource Production/FlourFactory.cs"
 "Assets/Scripts/Resource Production/PieFactory.cs"
