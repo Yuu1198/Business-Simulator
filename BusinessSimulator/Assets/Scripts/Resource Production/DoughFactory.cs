@@ -8,6 +8,13 @@ public class DoughFactory : ResourceFactory
     private int neededFlour = 1;
     private int neededWater = 10;
 
+    protected override void OnMouseDown()
+    {
+        base.OnMouseDown();
+
+        GameManager.Instance.OnDoughProductionUpdated(shouldProduce, productionTime);
+    }
+
     protected override void StartProduction()
     {
         if (GameManager.Instance.GetFlourAndWater(neededFlour, neededWater))
@@ -32,11 +39,18 @@ public class DoughFactory : ResourceFactory
         productionTimer = 0f;
         while (productionTimer < productionTime)
         {
-            // Update timer and progress bar
-            productionTimer += Time.deltaTime;
-            productionProgressBar.value = productionTimer / productionTime;
+            if (!shouldProduce)
+            {
+                yield return null;
+            }
+            else
+            {
+                // Update timer and progress bar
+                productionTimer += Time.deltaTime;
+                productionProgressBar.value = productionTimer / productionTime;
 
-            yield return null;
+                yield return null;
+            }
         }
 
         // Finished

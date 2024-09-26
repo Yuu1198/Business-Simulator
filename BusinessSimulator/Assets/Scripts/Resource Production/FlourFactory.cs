@@ -7,6 +7,13 @@ public class FlourFactory : ResourceFactory
 {
     private int neededWheat = 10;
 
+    protected override void OnMouseDown()
+    {
+        base.OnMouseDown();
+
+        GameManager.Instance.OnFlourProductionUpdated(shouldProduce, productionTime);
+    }
+
     protected override void StartProduction()
     {
         if (GameManager.Instance.GetWheat(neededWheat))

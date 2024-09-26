@@ -3092,7 +3092,7 @@ MonoBehaviour:
   productionTime: 20
   productionProgressBar: {fileID: 1060890259}
   activeMaterial: {fileID: 0}
-  inactiveMaterial: {fileID: 0}
+  inactiveMaterial: {fileID: 2100000, guid: 568cb5083fa7aa24281e62635c899a39, type: 2}
 --- !u!65 &743850880
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6078,7 +6078,7 @@ MonoBehaviour:
   productionTime: 30
   productionProgressBar: {fileID: 1666187617}
   activeMaterial: {fileID: 0}
-  inactiveMaterial: {fileID: 0}
+  inactiveMaterial: {fileID: 2100000, guid: 568cb5083fa7aa24281e62635c899a39, type: 2}
 --- !u!65 &1282154180
 BoxCollider:
   m_ObjectHideFlags: 0

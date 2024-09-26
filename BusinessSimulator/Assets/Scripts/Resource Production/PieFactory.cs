@@ -7,6 +7,13 @@ public class PieFactory : ResourceFactory
     private int neededDough = 1;
     private int neededBerries = 20;
 
+    protected override void OnMouseDown()
+    {
+        base.OnMouseDown();
+
+        GameManager.Instance.OnPieProductionUpdated(shouldProduce, productionTime);
+    }
+
     protected override void StartProduction()
     {
         if (GameManager.Instance.GetDoughAndBerries(neededDough, neededBerries))
@@ -16,7 +23,7 @@ public class PieFactory : ResourceFactory
             productionProgressBar.gameObject.SetActive(true);
             productionProgressBar.value = 0f;
 
-            GameManager.Instance.OnDoughProductionUpdated(true, productionTime);
+            GameManager.Instance.OnPieProductionUpdated(true, productionTime);
 
             StartCoroutine(Produce());
         }
@@ -31,11 +38,18 @@ public class PieFactory : ResourceFactory
         productionTimer = 0f;
         while (productionTimer < productionTime)
         {
-            // Update timer and progress bar
-            productionTimer += Time.deltaTime;
-            productionProgressBar.value = productionTimer / productionTime;
+            if (!shouldProduce)
+            {
+                yield return null;
+            }
+            else
+            {
+                // Update timer and progress bar
+                productionTimer += Time.deltaTime;
+                productionProgressBar.value = productionTimer / productionTime;
 
-            yield return null;
+                yield return null;
+            }
         }
 
         // Finished
